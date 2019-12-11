@@ -1,0 +1,62 @@
+'''
+
+Проветка на простоту числа по Теореме Ферма
+
+'''
+
+import numpy as np
+
+A = np.random.randint(2,100,100)
+
+def GCD(X,A):       # Нахождение НОД
+    if type(X) == int:
+        return GCD(A, X%A)
+    else:
+        if 0 in A:
+            return 0
+        else:
+            X = np.delete(X, np.where(A == 1))
+            A = np.delete(A, np.where(A == 1))
+            if X.size == 0:
+                return 1
+            else:
+                return GCD(A, X%A)
+
+def prime_check(X):     # проверка для X < 100 (для маленьких чисел оптимальнее перебором, чем Ферма)
+    for i in range(2,int(X**(1/2))+1):
+        if X%i == 0:
+            return '%i -- составное число' % X
+        else:
+            return '%i -- простое число' %X
+
+
+def ferma(X,A):  # prime test алгоритмом Ферма ( a^(N-1) == 1 (mod N) )
+    if X > 100 and GCD(X,A) == 1:   # проверка, что заданное число взаимно просто с каждым из А (алг. Евклида)
+        mod = np.array(([pow(int(a),X-1,X) for a in A]))
+        if 1 in mod:
+            return '%i -- простое число' %X
+    elif X > 100 and GCD(X,A) != 1:
+        return '%i -- составное число' % X
+    else:
+        return prime_check(X)
+
+
+A = np.random.randint(2,100,100)
+
+print('Тест с простыми числами:')
+
+print(ferma(17,A))
+print(ferma(89,A))
+print(ferma(101,A))
+print(ferma(587,A))
+print(ferma(1109,A))
+print(ferma(2147483647,A)) # тест с простым числом
+
+print('Тест с составными числами:')
+
+print(ferma(18,A))
+print(ferma(88,A))
+print(ferma(111,A))
+print(ferma(589,A))
+print(ferma(1110,A))
+print(ferma(2147483648,A))
