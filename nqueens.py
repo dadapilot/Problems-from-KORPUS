@@ -67,6 +67,7 @@ class Solver_8_Queens:
             Ans.append(self.from_binary(self.Population[ind_Ans][0][i:i+3]))
         for i, j in enumerate(Ans):
             out[i][j] = 'Q'
+            print(''.join(out[i]))
         return (fit, k, ''.join([''.join(st) for st in out ]))
 
     def from_binary(self, num):
